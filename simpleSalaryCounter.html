@@ -2,79 +2,103 @@
 <html ng-app="simpleSalaryCounter">
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <head>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
-<script>
-  // Define the `phonecatApp` module
-  var simpleSalaryCounter = angular.module('simpleSalaryCounter', []);
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+  <script>
+    // Define the `phonecatApp` module
+    var simpleSalaryCounter = angular.module('simpleSalaryCounter', []);
 
-  // Define the `PhoneListController` controller on the `phonecatApp` module
-  simpleSalaryCounter.controller('SalaryController', function SalaryController($scope) {
-    $scope.found = false;
-    var NUM_OB_SEM = 20;
-    var NUM_OB_1 = 50;
-    var NUM_OB_2 = 50;
-
-    var BASE_BRUTTO = 17760;
-
-    $scope.calculate = function() {
-      var REAL_BRUTTO = parseInt($scope.realBrutto);//13098
-      var REST = parseInt($scope.rest);
-      var BASE_BRUTTO = parseInt($scope.baseBrutto);
+    // Define the `PhoneListController` controller on the `phonecatApp` module
+    simpleSalaryCounter.controller('SalaryController', function SalaryController($scope) {
       $scope.found = false;
+      var NUM_OB_SEM = 20;
+      var NUM_OB_1 = 50;
+      var NUM_OB_2 = 50;
 
-      $scope.alternatives = [];
+      var BASE_BRUTTO = 17760;
 
-      for(var i=0; i<NUM_OB_SEM; ++i) {
+      $scope.calculate = function() {
+        var REAL_BRUTTO = parseInt($scope.realBrutto);//13098
+        var REST = parseInt($scope.rest);
+        var BASE_BRUTTO = parseInt($scope.baseBrutto);
+        $scope.found = false;
 
-          for(var j=0; j<NUM_OB_1; ++j) {
+        $scope.alternatives = [];
 
-              for(var k=0; k<NUM_OB_2; ++k) {
-                var product = (BASE_BRUTTO + i*(-555) + j*210 + k*178);
+        for(var i=0; i<NUM_OB_SEM; ++i) {
 
-                if(product == REAL_BRUTTO) {
-                  $scope.found = true;
-                  $scope.alternatives.push({ob1: j, ob2: k, obet: i, rest: 0});
-                } else if( REAL_BRUTTO <= (product + REST) && REAL_BRUTTO >= (product - REST)) {
-                  $scope.found = true;
-                  $scope.alternatives.push({ob1: j, ob2: k, obet: i, rest: (product-REAL_BRUTTO)});
+            for(var j=0; j<NUM_OB_1; ++j) {
+
+                for(var k=0; k<NUM_OB_2; ++k) {
+                  var product = (BASE_BRUTTO + i*(-555) + j*210 + k*178);
+
+                  if(product == REAL_BRUTTO) {
+                    $scope.found = true;
+                    $scope.alternatives.push({ob1: j, ob2: k, obet: i, rest: 0});
+                  } else if( REAL_BRUTTO <= (product + REST) && REAL_BRUTTO >= (product - REST)) {
+                    $scope.found = true;
+                    $scope.alternatives.push({ob1: j, ob2: k, obet: i, rest: (product-REAL_BRUTTO)});
+                  }
                 }
-              }
-          }
+            }
+        }
       }
-    }
-  });
-
-
-
-</script>
+    });
+  </script>
 </head>
+
 <body ng-controller="SalaryController">
-  <form>
-    <input id="realBrutto" placeholder="Real brutto" type="number" ng-model="realBrutto" required>
-    <br/>
-    <input id="baseBrutto" placeholder="Lön baserad på" type="number" ng-model="baseBrutto" required>
-    <br/>
-    <input id="rest" placeholder="Rest &plusmn; (0)" type="number" value="0" ng-model="rest">
-    <br/>
-    <input type="submit" ng-click="calculate()" value="Calculate" />
-    <br/>
+  <div class="container-fluid">
 
-    <h2 ng-show="!found">No combination found!</h2>
+    <form>
+      <div class="row">
+        <div class="col-md-2 col-sm-4">
+          <input id="realBrutto" placeholder="Real brutto" type="number" ng-model="realBrutto" required>
+        </div>
+        <div class="col-md-2 col-sm-4">
+          <input id="baseBrutto" placeholder="Lön baserad på" type="number" ng-model="baseBrutto" required>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 col-sm-4">
+          <input id="rest" placeholder="Rest &plusmn; (0)" type="number" value="0" ng-model="rest">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 col-sm-4">
+          <input type="submit" ng-click="calculate()" value="Calculate" />
+        </div>
+      </div>
 
-    <table ng-show="found" border="1">
-      <tr>
-          <td>Ob 1</td>
-          <td>Ob 2</td>
-          <td>Obet/sem</td>
-          <td>Rest</td>
-      </tr>
-      <tr ng-repeat="item in alternatives">
-          <td>{{item.ob1}}</td>
-          <td>{{item.ob2}}</td>
-          <td>{{item.obet}}</td>
-          <td>{{item.rest}}</td>
-      </tr>
-     </table>
-   </form>
+      <div class="row">
+        <div class="col">
+          <h2 ng-show="!found">No combination found!</h2>
+        </div>
+      </div>
+
+      <table ng-show="found" border="1" class="table table-bordered">
+        <thead>
+          <tr>
+              <th>Ob 1</th>
+              <th>Ob 2</th>
+              <th>Obet/sem</th>
+              <th>Rest</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="item in alternatives">
+              <td>{{item.ob1}}</td>
+              <td>{{item.ob2}}</td>
+              <td>{{item.obet}}</td>
+              <td>{{item.rest}}</td>
+          </tr>
+        </tbody>
+       </table>
+     </form>
+
+   </div> <!-- container fluid -->
 </body>
 </html>
