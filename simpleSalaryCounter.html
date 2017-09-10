@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html ng-app="simpleSalaryCounter">
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+<script>
+  // Define the `phonecatApp` module
+  var simpleSalaryCounter = angular.module('simpleSalaryCounter', []);
+
+  // Define the `PhoneListController` controller on the `phonecatApp` module
+  simpleSalaryCounter.controller('SalaryController', function SalaryController($scope) {
+    $scope.found = false;
+    var NUM_OB_SEM = 20;
+    var NUM_OB_1 = 50;
+    var NUM_OB_2 = 50;
+
+    var BASE_BRUTTO = 17760;
+
+    $scope.calculate = function() {
+      var REAL_BRUTTO = parseInt($scope.realBrutto);//13098
+      var REST = parseInt($scope.rest);
+      var BASE_BRUTTO = parseInt($scope.baseBrutto);
+      $scope.found = false;
+
+      $scope.alternatives = [];
+
+      for(var i=0; i<NUM_OB_SEM; ++i) {
+
+          for(var j=0; j<NUM_OB_1; ++j) {
+
+              for(var k=0; k<NUM_OB_2; ++k) {
+                var product = (BASE_BRUTTO + i*(-555) + j*210 + k*178);
+
+                if(product == REAL_BRUTTO) {
+                  $scope.found = true;
+                  $scope.alternatives.push({ob1: j, ob2: k, obet: i, rest: 0});
+                } else if( REAL_BRUTTO <= (product + REST) && REAL_BRUTTO >= (product - REST)) {
+                  $scope.found = true;
+                  $scope.alternatives.push({ob1: j, ob2: k, obet: i, rest: (product-REAL_BRUTTO)});
+                }
+              }
+          }
+      }
+    }
+  });
+
+
+
+</script>
+</head>
+<body ng-controller="SalaryController">
+  <form>
+    <input id="realBrutto" placeholder="Real brutto" type="text" ng-model="realBrutto" required>
+    <input id="baseBrutto" placeholder="Lön baserad på" type="text" ng-model="baseBrutto" required>
+    <input id="rest" placeholder="Rest &plusmn; (0)" type="text" value="0" ng-model="rest">
+    <input type="submit" ng-click="calculate()" value="Calculate" />
+
+    <h2 ng-show="!found">No combination found!</h2>
+
+    <table ng-show="found" border="1">
+      <tr>
+          <td>Ob 1</td>
+          <td>Ob 2</td>
+          <td>Obet/sem</td>
+          <td>Rest</td>
+      </tr>
+      <tr ng-repeat="item in alternatives">
+          <td>{{item.ob1}}</td>
+          <td>{{item.ob2}}</td>
+          <td>{{item.obet}}</td>
+          <td>{{item.rest}}</td>
+      </tr>
+     </table>
+   </form>
+</body>
+</html>
