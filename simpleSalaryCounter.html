@@ -50,10 +50,14 @@
 </head>
 <body ng-controller="SalaryController">
   <form>
-    <input id="realBrutto" placeholder="Real brutto" type="text" ng-model="realBrutto" required>
-    <input id="baseBrutto" placeholder="Lön baserad på" type="text" ng-model="baseBrutto" required>
-    <input id="rest" placeholder="Rest &plusmn; (0)" type="text" value="0" ng-model="rest">
+    <input id="realBrutto" placeholder="Real brutto" type="number" ng-model="realBrutto" required>
+    <br/>
+    <input id="baseBrutto" placeholder="Lön baserad på" type="number" ng-model="baseBrutto" required>
+    <br/>
+    <input id="rest" placeholder="Rest &plusmn; (0)" type="number" value="0" ng-model="rest">
+    <br/>
     <input type="submit" ng-click="calculate()" value="Calculate" />
+    <br/>
 
     <h2 ng-show="!found">No combination found!</h2>
 
