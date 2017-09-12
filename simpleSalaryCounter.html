@@ -15,13 +15,15 @@
     // Define the `PhoneListController` controller on the `phonecatApp` module
     simpleSalaryCounter.controller('SalaryController', function SalaryController($scope) {
       $scope.found = false;
-      var NUM_OB_SEM = 20;
-      var NUM_OB_1 = 50;
-      var NUM_OB_2 = 50;
 
       var BASE_BRUTTO = 17760;
 
       $scope.calculate = function() {
+        var NUM_OB_SEM = parseInt($scope.maxObetSem);
+        var NUM_OB_1 = parseInt($scope.maxOb1);
+        var NUM_OB_2 = parseInt($scope.maxOb2);
+
+
         var REAL_BRUTTO = parseInt($scope.realBrutto);//13098
         var REST = parseInt($scope.rest);
         var BASE_BRUTTO = parseInt($scope.baseBrutto);
@@ -55,6 +57,18 @@
   <div class="container-fluid">
 
     <form role="form">
+      <div class="row">
+        <div class="col-md-3 col-sm-4 col">
+          Max Ob1:<input id="maxOb1" placeholder="Max OB1" type="number" ng-model="maxOb1" ng-init="maxOb1=50">
+        </div>
+        <div class="col-md-3 col-sm-4 col">
+          Max Ob2:<input id="maxOb2" placeholder="Max OB2" type="number" ng-model="maxOb2" ng-init="maxOb2=50">
+        </div>
+        <div class="col-md-3 col-sm-4 col">
+          Max Obet sem:<input id="maxObetSem" placeholder="Max Obet. Sem" type="number" ng-model="maxObetSem" ng-init="maxObetSem=20">
+        </div>
+      </div>
+      <br/><br/>
       <div class="row">
         <div class="col-md-3 col-sm-4 col">
           <input id="realBrutto" placeholder="Real brutto" type="number" ng-model="realBrutto" required>
